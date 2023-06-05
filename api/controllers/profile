@@ -1,0 +1,10 @@
+exports.addNewProfile = (req,res,next) => {
+  const userDetails =  {
+    name:req.body.name
+  }
+
+ res.status(200).json({
+ message:"handleing post request profile data",
+ user:userDetails
+ });
+ }
