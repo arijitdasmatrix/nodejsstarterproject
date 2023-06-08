@@ -4,5 +4,5 @@ const app = require("./app");
 const port = process.env.port || 5000;
 
 const server = http.createServer(app);
-console.log("port",port);
+console.log("Port",port);
 server.listen(port);

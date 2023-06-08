@@ -1,10 +1,71 @@
-exports.addNewProfile = (req,res,next) => {
-  const userDetails =  {
-    name:req.body.name
+ 
+ const User = require("./../models/User");
+
+
+exports.addNewProfile = async (req,res,next) => {
+  try {
+    const name =  req.body.name;
+    const comment = req.body.comment;
+    const gender = req.body.gender;
+    const dateofbirth = req.body.dateofbirth;
+    const country = req.body.country;
+    const degreeandcertificates = req.body.degreeandcertificates;
+    const interest = req.body.interest;
+    const profileImage = req.body.profileImage;
+    const sportsInterest = req.body.sportsInterest;
+    const email = req.body.email;
+    const phoneno = req.body.phone;
+    const user = new User(null,name,comment,gender,dateofbirth,country,degreeandcertificates,interest,profileImage,sportsInterest,email,phoneno); 
+    const userresponse  = await user.save();
+    console.log("Error",userresponse);
+    res.status(200).json({
+    message:"User data Added Successfully",
+    error:userresponse
+   });
+  } catch (error) {
+    res.status(400).json({
+    message:error.message,
+    });
+  }
+ 
+}
+ 
+exports.getAllUsers = async (req,res,next) => {
+  try {
+   const user = await User.fetchAll();  
+   res.status(200).json({
+   users:{...user[0]}
+   });
+  } catch (error) {
+  res.status(200).json({
+  });
+  }
   }
 
- res.status(200).json({
- message:"handleing post request profile data",
- user:userDetails
- });
- }
+
+ exports.getUserDetails = (req,res,next) => {
+  const id = req.params.userid;
+  console.log("request",req.body);
+  console.log(id);
+  const user = User.findById(id); 
+  res.status(200).json({
+  message:"User Fetched successfully",
+  id:user
+  });
+  } 
+
+
+  exports.DeleteUserById = async (req,res,next) => {
+  try {
+  const id = req.params.userid;
+  console.log("id",id);
+  const user = await User.deleteById(id);  
+  res.status(200).json({
+  message:"Delete successful"
+  });
+  } catch (error) {
+  res.status(400).json({
+  error:error.message
+  });
+  }
+  } 

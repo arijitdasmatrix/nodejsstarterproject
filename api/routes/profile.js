@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const cors = require('cors')
+const cors = require('cors');
 const profileController = require("../controllers/profile");
-
+const bodyParser = require('body-parser');
 var allowlist = ['http://localhost:3000', 'http://localhost:5000']
 var corsOptionsDelegate = function (req, callback) {
   var corsOptions;
@@ -15,21 +15,9 @@ var corsOptionsDelegate = function (req, callback) {
 }
 
 
-router.get('/', cors(corsOptionsDelegate),(req,res,next) => {
- res.status(200).json({
- message:"handleing get request profile data"
- });
- });
-
- router.post('/', cors(corsOptionsDelegate),profileController.addNewProfile);
-
-
- router.get('/:userid', cors(corsOptionsDelegate),(req,res,next) => {
- const id = req.params.userid;
- res.status(200).json({
- id:id
- });
- });
+ router.get('/', cors(corsOptionsDelegate),profileController.getAllUsers);
+ router.post('/',bodyParser.json(),cors(corsOptionsDelegate),profileController.addNewProfile);
+ router.post('/userdetails/:userid',bodyParser.json(),cors(corsOptionsDelegate),profileController.getUserDetails);
 
  router.patch('/:userid', cors(corsOptionsDelegate),(req,res,next) => {
  const id = req.params.userid;
@@ -39,12 +27,6 @@ router.get('/', cors(corsOptionsDelegate),(req,res,next) => {
  });
  });
 
- router.delete('/:userid', cors(corsOptionsDelegate),(req,res,next) => {
- const id = req.params.userid;
- res.status(200).json({
- id:id,
- message:"Delete successful"
- });
- });
+ router.delete('/deleteUser/:userid', cors(corsOptionsDelegate),profileController.DeleteUserById);
 
 module.exports = router;
