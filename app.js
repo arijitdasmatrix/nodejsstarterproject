@@ -41,12 +41,22 @@ app.post("/upload",cors(corsOptionsDelegate) , upload.single("image"), (req,res 
 console.log(req.files);  
 res.status(200).send({
 message:"Image Uploaded successfully",
-file:req.file.path  
+file:`localhost:5000/${req.file.path}`  
 });
 });
 
 app.post('/multipleUploads', cors(corsOptionsDelegate) , upload.array('images', 10), function(req, res) {
-res.status(200).send({message:"Image Uploaded successfully",file:req.files});
+res.status(200).send({message:"Image Uploaded successfully",file:req.files.map(function(element){
+    delete  element.fieldname;
+    delete  element.originalname;
+    delete element.encoding;
+    delete element.mimetype;
+    delete element.destination;
+    delete element.filename;
+    delete element.size;
+    return element.link = `localhost:5000/${element.path}`;
+  })
+});
 });
 
 // parse application/json

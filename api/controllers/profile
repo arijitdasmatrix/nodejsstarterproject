@@ -33,8 +33,9 @@ exports.addNewProfile = async (req,res,next) => {
 exports.getAllUsers = async (req,res,next) => {
   try {
    const user = await User.fetchAll();  
+  
    res.status(200).json({
-   users:{...user[0]}
+   users:[user[0]]
    });
   } catch (error) {
   res.status(200).json({
