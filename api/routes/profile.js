@@ -17,7 +17,7 @@ var corsOptionsDelegate = function (req, callback) {
 
  router.get('/', cors(corsOptionsDelegate),profileController.getAllUsers);
  router.post('/',bodyParser.json(),cors(corsOptionsDelegate),profileController.addNewProfile);
- router.post('/userdetails/:userid',bodyParser.json(),cors(corsOptionsDelegate),profileController.getUserDetails);
+ router.get('/userdetails/:userid',bodyParser.json(),cors(corsOptionsDelegate),profileController.getUserDetails);
 
  router.patch('/:userid', cors(corsOptionsDelegate),(req,res,next) => {
  const id = req.params.userid;

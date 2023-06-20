@@ -29,7 +29,7 @@ const db = require("./../../utils/database");
  }
 
  static findById(id) {
-  
+  return db.execute(`SELECT * FROM Users WHERE (id = ${id}) `);
  } 
  
  static editById(id) {
